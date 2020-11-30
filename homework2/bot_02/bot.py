@@ -27,7 +27,7 @@ def greet_user(update, context):
                 planet_date = ephem_planet(date)
                 constellation = ephem.constellation(planet_date)
                 message = f"Ответ: планета находится в : {constellation}"
-            except (TypeError, ValueError):
+            except (TypeError, ValueError, AttributeError):
                 message = "Введите правильное название планеты"
         except (TypeError, ValueError):
             message = "Введите название планеты. Ошибка в типе"
