@@ -20,28 +20,15 @@ def greet_user(update, context):
     date = '2020/11/30'
     if context.args:
         try:
-            planet = context.args[0]
-            message = f"Название планеты: {planet}"
-            if planet == "Mercury":
-                eph_planet = ephem.Mercury(date)
-            elif planet == "Venus":
-                eph_planet = ephem.Venus(date)
-            elif planet == "Mars":
-                eph_planet = ephem.Mars(date)
-            elif planet == "Jupiter":
-                eph_planet = ephem.Jupiter(date)
-            elif planet == "Saturn":
-                eph_planet = ephem.Saturn(date)
-            elif planet == "Uranus":
-                eph_planet = ephem.Uranus(date)
-            elif planet == "Neptune":
-                eph_planet = ephem.Neptune(date)
-            else:
-                message = "Введите правильное название планеты"
-                ok_flag = False
-            if ok_flag:
-                constellation = ephem.constellation(eph_planet)
+            my_planet = context.args[0]
+            message = f"Название планеты: {my_planet}"
+            try:
+                ephem_planet = getattr(ephem, my_planet)
+                planet_date = ephem_planet(date)
+                constellation = ephem.constellation(planet_date)
                 message = f"Ответ: планета находится в : {constellation}"
+            except (TypeError, ValueError):
+                message = "Введите правильное название планеты"
         except (TypeError, ValueError):
             message = "Введите название планеты. Ошибка в типе"
     else:
